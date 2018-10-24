@@ -8,7 +8,6 @@ static float k  = 0.062;
 static float dt = 1;
 static float kf = k + f;
 
-
 class Cell {
   
   int x, y;
@@ -24,6 +23,10 @@ class Cell {
      this.v = v;
      this.u_calculated = 1.0;
      this.v_calculated = 0.0;
+  }
+  
+  public int get_h() {
+      return (int)((this.u - this.v) * 255);
   }
   
   public void calculate() {

@@ -69,8 +69,7 @@ void draw() {
       for (int x = 0; x < LENGTH; x++) {
         Cell cell = cells[y][x];
         cell.update();
-        int h = (int)((cell.u - cell.v) * 255);
-        pixels[x + y * LENGTH] = color(h, 255, 255);
+        pixels[x + y * LENGTH] = color(cell.get_h(), 255, 255);
       }
     }
     updatePixels();
@@ -101,8 +100,7 @@ void draw() {
   for (int y = 0; y < LENGTH; y++) {
     for (int x = 0; x < LENGTH; x++) {
       Cell cell = cells[y][x];
-      int h = (int)((cell.u - cell.v) * 255);
-      String text = String.format("%d,%d,%d", x, y, h);
+      String text = String.format("%d,%d,%d", x, y, cell.get_h());
       output.println(text);
     }
   }
