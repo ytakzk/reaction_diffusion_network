@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.io.FileWriter;
 
 Cell[][] cells;
 
@@ -56,8 +57,8 @@ void setup() {
 
 void draw() {
 
-    for (int y = 1; y < LENGTH-1; y++) {
-      for (int x = 1; x < LENGTH-1; x++) {
+    for (int y = 0; y < LENGTH; y++) {
+      for (int x = 0; x < LENGTH; x++) {
         Cell cell = cells[y][x];
         cell.calculate();
       }
@@ -76,6 +77,36 @@ void draw() {
 }
 
  void mousePressed() {
-   Cell cell = cells[mouseY][mouseX];
-   cell.v = 1;
+   
+   for (int y = mouseY-5; y <= mouseY+5; y++) {
+     for (int x = mouseX-5; x <= mouseX+5; x++) {
+       Cell cell = cells[y][x];
+       cell.v = 1;
+     }
+   }  
+ }
+ 
+ void keyPressed() {
+ 
+     if (key == 's') {
+       write();
+     }
+ 
+ }
+ 
+ void write() {
+ 
+  PrintWriter output = createWriter("." + File.separator + "output" + File.separator + String.valueOf(frameCount) + ".csv"); 
+     
+  for (int y = 0; y < LENGTH; y++) {
+    for (int x = 0; x < LENGTH; x++) {
+      Cell cell = cells[y][x];
+      int h = (int)((cell.u - cell.v) * 255);
+      String text = String.format("%d,%d,%d", x, y, h);
+      output.println(text);
+    }
+  }
+ 
+  output.flush();
+  output.close();
  }
