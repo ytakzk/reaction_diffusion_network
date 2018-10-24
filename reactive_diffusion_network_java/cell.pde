@@ -29,6 +29,10 @@ class Cell {
       return (int)((this.u - this.v) * 255);
   }
   
+  public float get_raw_h() {
+      return this.u - this.v;
+  }
+  
   public void calculate() {
     
     float[] lap = this.get_laplacian();

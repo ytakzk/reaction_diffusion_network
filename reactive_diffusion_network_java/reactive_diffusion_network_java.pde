@@ -100,7 +100,7 @@ void draw() {
   for (int y = 0; y < LENGTH; y++) {
     for (int x = 0; x < LENGTH; x++) {
       Cell cell = cells[y][x];
-      String text = String.format("%d,%d,%d", x, y, cell.get_h());
+      String text = String.format("%d,%d,%f", x, y, cell.get_raw_h());
       output.println(text);
     }
   }
