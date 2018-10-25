@@ -3,13 +3,14 @@ import java.io.FileWriter;
 
 Cell[][] cells;
 
-int LENGTH = 200;
+int LENGTH = 50;
 
 void setup() {
 
-    size(200, 200);
+    size(50, 50);
     colorMode(HSB);
-    
+    frameRate(120);
+
     cells = new Cell[LENGTH][LENGTH];
     
     for (int y = 0; y < LENGTH; y++) {
@@ -55,9 +56,7 @@ void setup() {
     }
 }
 
-void draw() {
-  
-    System.out.println(frameRate);
+void draw() {  
 
     for (int y = 0; y < LENGTH; y++) {
       for (int x = 0; x < LENGTH; x++) {
@@ -111,4 +110,6 @@ void draw() {
  
   output.flush();
   output.close();
+  
+  save("." + File.separator + "output" + File.separator + String.valueOf(frameCount) + ".png");
  }
