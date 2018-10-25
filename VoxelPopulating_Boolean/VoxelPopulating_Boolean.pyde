@@ -2,30 +2,35 @@
 # prdouced based on a reaction diffusion algorithm
 add_library('peasycam')
 
-from map_loader import *
+import map_loader
 import writer
 
 def setup():
-    size(1000, 1000, P3D)
-    cam = PeasyCam(this, 1000, 1000, 0, 500)
-    global box_list, imageWidth, imageHeight, z_range, half_zRange, side_length
+    global box_list, imageWidth, imageHeight, z_range, half_zRange, side_length, maxValue, half_maxValue, boxSpacing, sides
     side_length = 50
+    boxSpacing = 10
+
+    sides = side_length * boxSpacing
+
+    size(1000, 1000, P3D)
+    cam = PeasyCam(this, sides / 2, sides / 2, 0, 500)
     unit_length = 10
+
+    maxValue = 1000
+    half_maxValue = (maxValue) / 2
     # frameRate(4)
 
-    cells_a = load_map('1387.csv', 255, side_length)
-    cells_b = load_map('1818.csv', 255, side_length)
+    cells_a = map_loader.load_map('1387.csv', maxValue, side_length)
+    cells_b = map_loader.load_map('1818.csv', maxValue, side_length)
 
     z_range = 16
     half_zRange = int(z_range / 2)
 
-    global structure_radius, structural_radiusE2, maxValue, half_maxValue, radiusDivHalfMaxValue, boxSpacing
-    structural_radius = 3.2
+    global structure_radius, structural_radiusE2, radiusDivHalfMaxValue
+    structural_radius = 3.5
     structural_radiusE2 = structural_radius
-    maxValue = 128.0
-    half_maxValue = (maxValue) / 2
+
     radiusDivHalfMaxValue = structural_radius / half_maxValue
-    boxSpacing = 10
 
     # x direction
     global setA, setB
@@ -63,38 +68,30 @@ def setup():
             boxValue_list2D.append(boxValue_list1D)
         setB.append(boxValue_list2D)
 
-    global booleanSet
+    global booleanSet, zShift
+    zShift = 5
     booleanSet = []
     booleanSet = booleanUnion(
-        setA, setB, [side_length, side_length, z_range], 0)
+        setA, setB, [side_length, side_length, z_range], zShift)
     
     writer.write(booleanSet)
 
 def draw():
     background(127)
 
-    stroke(255)
-    strokeWeight(1)
-    directionalLight(255,  0,127,  0,  0,  -1)
-    directionalLight(  0,127,255,  -1, 0, 0.3)
-    directionalLight(127,255,  0, 0.5, 1, 0.3)
-    directionalLight(  0,255,127, 0.5,-1, 0.3)
-    
+    strokeWeight(10)
+
     for i in range(side_length):
         x = i * boxSpacing
         for j in range(side_length):
             y = j * boxSpacing
-            for k in range(z_range):
+
+            for k in range(z_range + zShift):
                 value = booleanSet[i][j][k]
                 if value < 0:
-                    noStroke()
-                    fill(255)
+                    stroke(color(255, 0, 0))
                     z = k * boxSpacing
-                    pushMatrix()
-                    translate(x, y, z)
-                    box(4)
-                    # point(x, y, z)
-                    popMatrix()
+                    point(x, y, z)
 
 def fromZtoX2(zValue):
     # normalisation as if it the surface was constructed out of a set of
@@ -155,6 +152,14 @@ def booleanUnion(setA, setB, setDimensions, zShiftB=0):
         voxN_z3 = voxS_z
 
     if divisioning == 0:
+
+        test_length = 0
+        for z in range(voxN_z0, voxN_z3, 1):
+            test_length += 1
+
+        print "real length: ", voxN_z
+        print "test length: ", test_length
+                
         for x in range(voxN_l):
             for y in range(voxN_w):
                 for z in range(voxN_z0, voxN_z3, 1):
@@ -164,6 +169,17 @@ def booleanUnion(setA, setB, setDimensions, zShiftB=0):
                     newSet[x][y][z] = value
 
     elif divisioning == 1:
+        test_length = 0
+        for z in range(voxN_z0, voxN_z1, 1):
+            test_length += 1
+        for z in range(voxN_z1, voxN_z2, 1):
+            test_length += 1
+        for z in range(voxN_z2, voxN_z3, 1):
+            test_length += 1
+
+        print "real length: ", voxN_z
+        print "test length: ", test_length
+        
         for x in range(voxN_l):
             for y in range(voxN_w):
                 for z in range(voxN_z0, voxN_z1, 1):
@@ -174,11 +190,22 @@ def booleanUnion(setA, setB, setDimensions, zShiftB=0):
                     valueB = setB[x][y][z]
                     value = min(valueA, valueB)
                     newSet[x][y][z] = value
-                for z in range(voxN_z0, voxN_z1, 1):
+                for z in range(voxN_z2, voxN_z3, 1):
                     value = setA[x][y][z + zShiftB]
                     newSet[x][y][z] = value
 
     elif divisioning == 2:
+        test_length = 0
+        for z in range(voxN_z0, voxN_z1, 1):
+            test_length += 1
+        for z in range(voxN_z1, voxN_z2, 1):
+            test_length += 1
+        for z in range(voxN_z2, voxN_z3, 1):
+            test_length += 1
+
+        print "real length: ", voxN_z
+        print "test length: ", test_length
+        
         for x in range(voxN_l):
             for y in range(voxN_w):
                 for z in range(voxN_z0, voxN_z1, 1):
@@ -189,7 +216,7 @@ def booleanUnion(setA, setB, setDimensions, zShiftB=0):
                     valueB = setA[x][y][z]
                     value = min(valueA, valueB)
                     newSet[x][y][z] = value
-                for z in range(voxN_z0, voxN_z1, 1):
+                for z in range(voxN_z2, voxN_z3, 1):
                     value = setB[x][y][z - zShiftB]
                     newSet[x][y][z] = value
 
