@@ -75,7 +75,9 @@ def setup():
     stroke(255)
     strokeWeight(0.5)
     sh = get_pshape(mesh)
-
+    
+    export_obj(mesh,filename="output.obj")
+    
 def draw():
 
     background(0)
