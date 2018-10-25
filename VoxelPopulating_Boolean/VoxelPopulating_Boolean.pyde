@@ -27,16 +27,21 @@ def setup():
     half_zRange = int(z_range / 2)
 
     global structure_radius, structural_radiusE2, radiusDivHalfMaxValue
-    structural_radius = 3.5
+    structural_radius = 3.2
     structural_radiusE2 = structural_radius
 
     radiusDivHalfMaxValue = structural_radius / half_maxValue
+    print radiusDivHalfMaxValue
 
     # x direction
     global setA, setB
     setA, setB = [], []
 
     # sourceImage1
+    
+    extraValues = []
+    
+    
     for i in range(side_length):
         # y direction
         boxValue_list2D = []
@@ -47,11 +52,17 @@ def setup():
             boxValue_list1D = []
             for k in range(z_range):
                 z = k - half_zRange
-                value = sqrt(xE2 + z ** 2) - structural_radius
+                d = xE2 + z ** 2
+                if d < 0:
+                    d = 0
+                value = sqrt(d) - structural_radius
                 boxValue_list1D.append(value)
+                extraValues.append(str(i) + ',' + str(j) + ',' + str(k) + ', raw_val: ' + str(colour) + ", x^2: " + str(xE2) + ', z: ' + str(z) + ', k: ' + str(k) )
             boxValue_list2D.append(boxValue_list1D)
         setA.append(boxValue_list2D)
 
+    writer.writeBis(extraValues)
+    
     # sourceImage2
     for i in range(side_length):
         # y direction
@@ -63,16 +74,18 @@ def setup():
             boxValue_list1D = []
             for k in range(z_range):
                 z = k - half_zRange
-                value = sqrt(xE2 + z ** 2) - structural_radius
+                d = xE2 + z ** 2
+                if d < 0:
+                    d = 0
+                value = sqrt(d) - structural_radius
                 boxValue_list1D.append(value)
             boxValue_list2D.append(boxValue_list1D)
         setB.append(boxValue_list2D)
 
     global booleanSet, zShift
-    zShift = 5
+    zShift = 4
     booleanSet = []
-    booleanSet = booleanUnion(
-        setA, setB, [side_length, side_length, z_range], zShift)
+    booleanSet = booleanUnion(setA, setB, [side_length, side_length, z_range], zShift)
     
     writer.write(booleanSet)
 
@@ -81,30 +94,62 @@ def draw():
 
     strokeWeight(10)
 
+    # for i in range(side_length):
+    #     x = i * boxSpacing
+    #     for j in range(side_length):
+    #         y = j * boxSpacing
+
+    #         for k in range(z_range):
+    #             value = setA[i][j][k]
+    #             if value < 0:
+    #                 stroke(color(255, 0, 0))
+    #                 z = k * boxSpacing
+    #                 point(x, y, z)
+
+    # for i in range(side_length):
+    #     x = i * boxSpacing
+    #     for j in range(side_length):
+    #         y = j * boxSpacing
+
+    #         for k in range(z_range):
+    #             value = setB[i][j][k]
+    #             if value < 0:
+    #                 stroke(color(255, 0, 0))
+    #                 z = k * boxSpacing
+    #                 point(x, y, z + 100.0)
+
     for i in range(side_length):
         x = i * boxSpacing
         for j in range(side_length):
             y = j * boxSpacing
 
             for k in range(z_range + zShift):
-                value = booleanSet[i][j][k]
+                value = booleanSet[i][j][k]                
                 if value < 0:
                     stroke(color(255, 0, 0))
                     z = k * boxSpacing
-                    point(x, y, z)
+                    point(x, y, z + 100.0)
+
+                # # stroke(int(value*2.5))
+                # z = k * boxSpacing
+                # point(x, y, z)
 
 def fromZtoX2(zValue):
     # normalisation as if it the surface was constructed out of a set of
     # cylinders
     zValue *= radiusDivHalfMaxValue
     # differentiating for values that are below and above the z-plane
+    zValueE2 = zValue ** 2
     if zValue >= 0.0:
-        x2 = structural_radiusE2 - zValue ** 2
-    else:
-        x_negative2 = structural_radiusE2 - zValue ** 2
-        x_negative = sqrt(x_negative2)
-        x = 2 * structural_radiusE2 - x_negative
-        x2 = x ** 2
+        x2 = structural_radiusE2 - zValueE2
+    else:        
+        if zValueE2 > structural_radiusE2:
+            x2 = 100
+        else: 
+            x_negative2 = structural_radiusE2 - zValueE2
+            x_negative = sqrt(x_negative2)
+            x = 2 * structural_radiusE2 - x_negative
+            x2 = x ** 2
     return x2
 
 def booleanUnion(setA, setB, setDimensions, zShiftB=0):
