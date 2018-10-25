@@ -15,9 +15,6 @@ def setup():
     cells_a = load_map('1387.csv', 255, side_length)
     cells_b = load_map('1818.csv', 255, side_length)
 
-    
-    sourceImage1 = loadImage("25E2.png")
-    sourceImage2 = loadImage("25E2B.png")
     z_range = 16
     half_zRange = int(z_range/2)
     
@@ -38,8 +35,7 @@ def setup():
         # y direction
         boxValue_list2D = []
         for j in range(side_length):
-            colour = sourceImage1.get(i, j)
-            colour = red(colour) - 128
+            colour = cells_a[j][i]
             xE2 = fromZtoX2(colour)
             # z direction
             boxValue_list1D = []
@@ -55,8 +51,7 @@ def setup():
         # y direction
         boxValue_list2D = []
         for j in range(side_length):
-            colour = sourceImage2.get(i, j)
-            colour = red(colour) - 128
+            colour = cells_b[i][j]
             xE2 = fromZtoX2(colour)
             # z direction
             boxValue_list1D = []
