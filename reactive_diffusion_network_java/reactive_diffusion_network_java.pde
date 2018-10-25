@@ -3,11 +3,11 @@ import java.io.FileWriter;
 
 Cell[][] cells;
 
-int LENGTH = 200;
+int LENGTH = 50;
 
 void setup() {
 
-    size(200, 200);
+    size(50, 50);
     colorMode(HSB);
     
     cells = new Cell[LENGTH][LENGTH];
