@@ -34,5 +34,5 @@ def load_map(name, upper_bound, LENGTH):
             v = (cell - min_val) / (max_val - min_val) * upper_bound
             v -= upper_bound / 2
             cells[y][x] = v
-            
+
     return cells
