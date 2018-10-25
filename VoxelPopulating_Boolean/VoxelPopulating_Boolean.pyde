@@ -2,13 +2,19 @@
 # prdouced based on a reaction diffusion algorithm
 add_library('peasycam')
 
+from map_loader import *
+
 def setup():
     size(1000, 1000, P3D)
     cam = PeasyCam(this, 1000, 1000, 0, 500)
     global box_list, imageWidth, imageHeight, z_range, half_zRange, side_length
-    side_length = 25
+    side_length = 50
     unit_length = 10
     # frameRate(4)
+    
+    cells_a = load_map('1387.csv', 255, side_length)
+    cells_b = load_map('1818.csv', 255, side_length)
+
     
     sourceImage1 = loadImage("25E2.png")
     sourceImage2 = loadImage("25E2B.png")
