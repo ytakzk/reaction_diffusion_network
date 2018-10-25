@@ -7,7 +7,7 @@ import writer
 
 def setup():
     global box_list, imageWidth, imageHeight, z_range, half_zRange, side_length, maxValue, half_maxValue, boxSpacing, sides
-    side_length = 50
+    side_length = 200
     boxSpacing = 10
 
     sides = side_length * boxSpacing
@@ -16,12 +16,16 @@ def setup():
     cam = PeasyCam(this, sides / 2, sides / 2, 0, 500)
     unit_length = 10
 
-    maxValue = 1000
+    maxValue = 256
     half_maxValue = (maxValue) / 2
     # frameRate(4)
 
-    cells_a = map_loader.load_map('1387.csv', maxValue, side_length)
-    cells_b = map_loader.load_map('1818.csv', maxValue, side_length)
+    # cells_a = map_loader.load_map('3102.csv', maxValue, side_length)
+    # cells_b = map_loader.load_map('2801.csv', maxValue, side_length)
+    
+    image1 = loadImage("200E2-2.png")
+    image2 = image1
+    image1 = loadImage("200E2-1.png")
 
     z_range = 16
     half_zRange = int(z_range / 2)
@@ -46,7 +50,9 @@ def setup():
         # y direction
         boxValue_list2D = []
         for j in range(side_length):
-            colour = cells_a[j][i]
+            # colour = cells_a[j][i]
+            colour = image1.get(i, j)
+            colour = red(colour) - half_maxValue
             xE2 = fromZtoX2(colour)
             # z direction
             boxValue_list1D = []
@@ -68,7 +74,9 @@ def setup():
         # y direction
         boxValue_list2D = []
         for j in range(side_length):
-            colour = cells_b[i][j]
+            # colour = cells_b[i][j]
+            colour = image2.get(i, j)
+            colour = red(colour) - half_maxValue
             xE2 = fromZtoX2(colour)
             # z direction
             boxValue_list1D = []
@@ -130,14 +138,14 @@ def draw():
                     z = k * boxSpacing
                     point(x, y, z + 100.0)
 
-                # # stroke(int(value*2.5))
+                # stroke(int(value*2.5))
                 # z = k * boxSpacing
                 # point(x, y, z)
 
 def fromZtoX2(zValue):
     # normalisation as if it the surface was constructed out of a set of
     # cylinders
-    zValue *= radiusDivHalfMaxValue
+    zValue *= radiusDivHalfMaxValue * .8
     # differentiating for values that are below and above the z-plane
     zValueE2 = zValue ** 2
     if zValue >= 0.0:

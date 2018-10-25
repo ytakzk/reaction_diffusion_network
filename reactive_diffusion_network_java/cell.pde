@@ -1,11 +1,11 @@
 import java.util.ArrayList;
 import java.util.List;
 
-static float Da = 1.0;
-static float Db = 0.5;
-static float f  = 0.0545;
-static float k  = 0.062;
-static float dt = 1;
+static float Da = 1.1;
+static float Db = 0.45;
+static float f  = 0.0535;
+static float k  = 0.0621;
+static float dt = 1.0;
 static float kf = k + f;
 
 class Cell {
@@ -42,8 +42,8 @@ class Cell {
     this.u_calculated = this.u + (Da * u_lap - this.u * this.v * this.v + f * (1.0 - this.u)) * dt;
     this.v_calculated = this.v + (Db * v_lap + this.u * this.v * this.v - kf * this.v) * dt;
 
-    this.u_calculated = constrain(this.u_calculated, 0.0, 1.0);
-    this.v_calculated = constrain(this.v_calculated, 0.0, 1.0);
+    //this.u_calculated = constrain(this.u_calculated, 0.0, 1.0);
+    //this.v_calculated = constrain(this.v_calculated, 0.0, 1.0);
   }
   
   public void update() {

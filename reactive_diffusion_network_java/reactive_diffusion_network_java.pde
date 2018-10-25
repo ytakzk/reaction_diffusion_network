@@ -3,12 +3,12 @@ import java.io.FileWriter;
 
 Cell[][] cells;
 
-int LENGTH = 50;
+int LENGTH = 200;
 
 void setup() {
 
-    size(50, 50);
-    colorMode(HSB);
+    size(200, 200);
+    colorMode(RGB);
     frameRate(120);
 
     cells = new Cell[LENGTH][LENGTH];
@@ -19,10 +19,12 @@ void setup() {
         float u = 1.0;
         float v = 0.0;
         
-        if (x > LENGTH * 0.5 - 5 && x < LENGTH * 0.5 + 5 &&
-            y > LENGTH * 0.5 - 5 && y < LENGTH * 0.5 + 5) {
-            
-              v = 1.0;
+        for (int i = 0; i < 1; i++) {
+          if (x > random(LENGTH) - 5 && x < random(LENGTH) + 5 &&
+              y > random(LENGTH) - 5 && y < random(LENGTH) + 5) {
+              
+                v = 1.0;
+          }
         }
         
         Cell cell = new Cell(x, y, u, v);
@@ -70,7 +72,7 @@ void draw() {
       for (int x = 0; x < LENGTH; x++) {
         Cell cell = cells[y][x];
         cell.update();
-        pixels[x + y * LENGTH] = color(cell.get_h(), 255, 255);
+        pixels[x + y * LENGTH] = color(cell.get_h(), cell.get_h(), cell.get_h());
       }
     }
     updatePixels();
@@ -78,8 +80,8 @@ void draw() {
 
  void mousePressed() {
    
-   for (int y = mouseY-5; y <= mouseY+5; y++) {
-     for (int x = mouseX-5; x <= mouseX+5; x++) {
+   for (int y = mouseY-2; y <= mouseY+2; y++) {
+     for (int x = mouseX-2; x <= mouseX+2; x++) {
        int xx = abs((x + 1) % LENGTH);
        int yy = abs((y + 1) % LENGTH);
        Cell cell = cells[yy][xx];
