@@ -7,7 +7,7 @@ import writer
 
 def setup():
     global box_list, imageWidth, imageHeight, z_range, half_zRange, side_length, maxValue, half_maxValue, boxSpacing, sides
-    side_length = 50
+    side_length = 200
     boxSpacing = 10
 
     sides = side_length * boxSpacing
@@ -20,8 +20,8 @@ def setup():
     half_maxValue = (maxValue) / 2
     # frameRate(4)
 
-    cells_a = map_loader.load_map('1387.csv', maxValue, side_length)
-    cells_b = map_loader.load_map('1818.csv', maxValue, side_length)
+    cells_a = map_loader.load_map('18/1.csv', maxValue, side_length)
+    cells_b = map_loader.load_map('18/2.csv', maxValue, side_length)
 
     z_range = 16
     half_zRange = int(z_range / 2)

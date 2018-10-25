@@ -3,15 +3,27 @@ import java.io.FileWriter;
 
 Cell[][] cells;
 
-int LENGTH = 50;
+int LENGTH = 1000;
+int UNIT_LENGTH = 200;
+int NUM_INITIAL_ATTRACTORS = 1000;
 
 void setup() {
 
-    size(50, 50);
+    size(1000, 1000);
     colorMode(HSB);
     frameRate(120);
 
     cells = new Cell[LENGTH][LENGTH];
+    
+    ArrayList<ArrayList<Integer>> attractors = new ArrayList<ArrayList<Integer>>();
+    for (int i = 0; i < NUM_INITIAL_ATTRACTORS; i++) {
+      ArrayList<Integer> attractor = new ArrayList<Integer>();
+      
+      attractor.add(Integer.valueOf(int(random(0, LENGTH))));
+      attractor.add(Integer.valueOf(int(random(0, LENGTH))));
+
+      attractors.add(attractor);
+    }
     
     for (int y = 0; y < LENGTH; y++) {
       for (int x = 0; x < LENGTH; x++) {
@@ -19,16 +31,27 @@ void setup() {
         float u = 1.0;
         float v = 0.0;
         
-        if (x > LENGTH * 0.5 - 5 && x < LENGTH * 0.5 + 5 &&
-            y > LENGTH * 0.5 - 5 && y < LENGTH * 0.5 + 5) {
-            
-              v = 1.0;
+        boolean is_attracted = false;
+        for (ArrayList<Integer> attractor: attractors) {
+          
+          int ax = attractor.get(0);
+          int ay = attractor.get(1);
+
+          if (x > ax - 10 && x < ax + 10 && y > ay - 10 && y < ay + 10) {
+            is_attracted = true;
+          }
         }
+        
+        if (is_attracted) {
+        
+            v = 1.0;
+        }      
         
         Cell cell = new Cell(x, y, u, v);
         cells[y][x] = cell;
       }
     }
+    
     
     
     for (int y = 0; y < LENGTH; y++) {
@@ -98,18 +121,36 @@ void draw() {
  
  void write() {
  
-  PrintWriter output = createWriter("." + File.separator + "output" + File.separator + String.valueOf(frameCount) + ".csv"); 
-     
+  ArrayList<PrintWriter> writers = new ArrayList<PrintWriter>();
+  
+  for (int i = 0; i < (LENGTH * LENGTH) / (UNIT_LENGTH * UNIT_LENGTH); i++) {
+  
+    PrintWriter output = createWriter("." + File.separator + "output" + File.separator + String.valueOf(frameCount) + File.separator + String.valueOf(i) + ".csv"); 
+    writers.add(output);
+  }
+  
+  int num = int(floor(LENGTH / float(UNIT_LENGTH)));
+  
   for (int y = 0; y < LENGTH; y++) {
     for (int x = 0; x < LENGTH; x++) {
+
+      int offset_x = int(floor(float(x) / UNIT_LENGTH));
+      int offset_y = int(floor(float(y) / UNIT_LENGTH));
+      
+      int i = offset_x + offset_y * num;
+      PrintWriter output = writers.get(i);
+    
       Cell cell = cells[y][x];
-      String text = String.format("%d,%d,%f", x, y, cell.get_raw_h());
+      String text = String.format("%d,%d,%f", x - offset_x * UNIT_LENGTH, y - offset_y * UNIT_LENGTH, cell.get_raw_h());
       output.println(text);
     }
   }
  
-  output.flush();
-  output.close();
+  for (PrintWriter output: writers) {
+    output.flush();
+    output.close();  
+  }
+
   
   save("." + File.separator + "output" + File.separator + String.valueOf(frameCount) + ".png");
  }
