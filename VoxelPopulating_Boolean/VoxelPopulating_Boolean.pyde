@@ -5,26 +5,31 @@ add_library('peasycam')
 from map_loader import *
 
 def setup():
-    size(1000, 1000, P3D)
-    cam = PeasyCam(this, 1000, 1000, 0, 500)
-    global box_list, imageWidth, imageHeight, z_range, half_zRange, side_length
+    global box_list, imageWidth, imageHeight, z_range, half_zRange, side_length, maxValue, half_maxValue, boxSpacing, sides
     side_length = 50
+    boxSpacing = 10
+    
+    sides = side_length * boxSpacing
+    
+    size(1000, 1000, P3D)
+    cam = PeasyCam(this, sides/2, sides/2, 0, 500)
     unit_length = 10
+    
+    maxValue = 1000
+    half_maxValue = (maxValue)/2
     # frameRate(4)
     
-    cells_a = load_map('1387.csv', 255, side_length)
-    cells_b = load_map('1818.csv', 255, side_length)
+    cells_a = load_map('1387.csv', maxValue, side_length)
+    cells_b = load_map('1818.csv', maxValue, side_length)
 
     z_range = 16
     half_zRange = int(z_range/2)
     
-    global structure_radius, structural_radiusE2, maxValue, half_maxValue, radiusDivHalfMaxValue, boxSpacing
-    structural_radius = 3.2
+    global structure_radius, structural_radiusE2, radiusDivHalfMaxValue
+    structural_radius = 7.0
     structural_radiusE2 = structural_radius
-    maxValue = 128.0
-    half_maxValue = (maxValue)/2
+
     radiusDivHalfMaxValue = structural_radius / half_maxValue
-    boxSpacing = 10
     
     # x direction
     global setA, setB
