@@ -28,11 +28,18 @@ def load_map(name, upper_bound, LENGTH):
         elif v < min_val:
             min_val = v
 
+    sum = 0.0
+    num = 0
     for y in range(LENGTH):
         for x in range(LENGTH):
             cell = cells[y][x]
             v = (cell - min_val) / (max_val - min_val) * upper_bound
             v -= upper_bound / 2
             cells[y][x] = v
+            sum += v
+            num += 1
+    
+    print('the average is %f' % (sum / float(num)))
+    
 
     return cells
