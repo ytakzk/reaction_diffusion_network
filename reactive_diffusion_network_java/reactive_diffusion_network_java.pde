@@ -3,11 +3,11 @@ import java.io.FileWriter;
 
 Cell[][] cells;
 
-int LENGTH = 400;
+int LENGTH = 200;
 
 void setup() {
 
-    size(400, 400);
+    size(200, 200);
     colorMode(HSB);
     
     cells = new Cell[LENGTH][LENGTH];
@@ -56,6 +56,8 @@ void setup() {
 }
 
 void draw() {
+  
+    System.out.println(frameRate);
 
     for (int y = 0; y < LENGTH; y++) {
       for (int x = 0; x < LENGTH; x++) {
@@ -79,7 +81,9 @@ void draw() {
    
    for (int y = mouseY-5; y <= mouseY+5; y++) {
      for (int x = mouseX-5; x <= mouseX+5; x++) {
-       Cell cell = cells[y][x];
+       int xx = abs((x + 1) % LENGTH);
+       int yy = abs((y + 1) % LENGTH);
+       Cell cell = cells[yy][xx];
        cell.v = 1;
      }
    }  
