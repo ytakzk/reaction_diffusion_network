@@ -9,6 +9,9 @@ voxels = []
 LENGTH = 100
 HALF_LENGTH = int(LENGTH * 0.5)
 
+tile_name_a = 24
+tile_name_b = 0
+
 def setup():
 
     global sh, data, x_len, y_len, z_len
@@ -17,7 +20,7 @@ def setup():
 
     size(1000, 1000, P3D)
 
-    data, x_len, y_len, z_len = loader.load()
+    data, x_len, y_len, z_len = loader.load(tile_name_a, tile_name_b)
 
     mesh = Mesh()
 
@@ -76,7 +79,7 @@ def setup():
     strokeWeight(0.5)
     sh = get_pshape(mesh)
     
-    export_obj(mesh,filename="output.obj")
+    export_obj(mesh,filename='./output/%s_%s.obj' % (tile_name_a, tile_name_b))
     
 def draw():
 

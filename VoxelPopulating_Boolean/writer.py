@@ -1,10 +1,10 @@
-def write(data):
+def write(data, tile_a_name, tile_b_name):
     
     x_len = len(data)
     y_len = len(data[0])
     z_len = len(data[0][0])
     
-    output = createWriter('output.csv')
+    output = createWriter('./output/%s_%s.csv' % (tile_a_name, tile_b_name))
     
     output.println('%d,%d,%d' % (x_len, y_len, z_len))
     

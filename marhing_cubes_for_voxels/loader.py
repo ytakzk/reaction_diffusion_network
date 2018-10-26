@@ -1,8 +1,8 @@
 import math
 
-def load():
+def load(tile_name_a, tile_name_b):
     
-    name = '../VoxelPopulating_Boolean/output.csv'
+    name = '../VoxelPopulating_Boolean/output/%s_%s.csv' % (tile_name_a, tile_name_b)
         
     file = open(name, 'r')
     lines = file.readlines()

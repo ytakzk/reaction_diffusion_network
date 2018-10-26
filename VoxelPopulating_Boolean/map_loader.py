@@ -38,8 +38,13 @@ def load_map(name, upper_bound, LENGTH):
             cells[y][x] = v
             sum += v
             num += 1
+            
+    average = (sum / float(num))
     
-    print('the average is %f' % (sum / float(num)))
+    for y in range(LENGTH):
+        for x in range(LENGTH):
+            cells[y][x] -= average
     
+    print('the average is %f' % (sum / float(num)))    
 
     return cells

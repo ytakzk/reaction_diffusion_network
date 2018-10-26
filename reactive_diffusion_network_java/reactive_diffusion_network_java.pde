@@ -37,7 +37,7 @@ void setup() {
           int ax = attractor.get(0);
           int ay = attractor.get(1);
 
-          if (x > ax - 10 && x < ax + 10 && y > ay - 10 && y < ay + 10) {
+          if (x > ax - 5 && x < ax + 5 && y > ay - 5 && y < ay + 5) {
             is_attracted = true;
           }
         }
@@ -46,6 +46,14 @@ void setup() {
         
             v = 1.0;
         }      
+        
+        for (int i = 0; i < 1; i++) {
+          if (x > random(LENGTH) - 5 && x < random(LENGTH) + 5 &&
+              y > random(LENGTH) - 5 && y < random(LENGTH) + 5) {
+              
+                v = 1.0;
+          }        
+        }
         
         Cell cell = new Cell(x, y, u, v);
         cells[y][x] = cell;
