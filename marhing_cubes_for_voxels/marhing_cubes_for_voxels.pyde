@@ -9,7 +9,7 @@ voxels = []
 LENGTH = 100
 HALF_LENGTH = int(LENGTH * 0.5)
 
-tile_name_a = 24
+tile_name_a = 1
 tile_name_b = 0
 
 def setup():
@@ -78,9 +78,10 @@ def setup():
     stroke(255)
     strokeWeight(0.5)
     sh = get_pshape(mesh)
-    
-    export_obj(mesh,filename='./output/%s_%s.obj' % (tile_name_a, tile_name_b))
-    
+
+    export_obj(mesh, filename='./output/%s_%s.obj' %
+               (tile_name_a, tile_name_b))
+
 def draw():
 
     background(0)
@@ -160,7 +161,8 @@ def generate_sphere():
                 distances = [v1, v2, v3, v4, v5, v6, v7, v8]
 
                 ratio = 5
-                mc = marching_cubes_3d_single_cell(distances, x * ratio, y * ratio, z * ratio, d)
+                mc = marching_cubes_3d_single_cell(
+                    distances, x * ratio, y * ratio, z * ratio, d)
 
                 mesh.add_faces(mc.faces)
                 for n in mc.nodes:

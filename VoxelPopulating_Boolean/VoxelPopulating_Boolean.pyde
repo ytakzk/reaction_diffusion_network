@@ -5,7 +5,7 @@ add_library('peasycam')
 import map_loader
 import writer
 
-tile_name_a = 24
+tile_name_a = 1
 tile_name_b = 0
 
 def setup():
