@@ -101,11 +101,37 @@ void draw() {
       for (int x = 0; x < LENGTH; x++) {
         Cell cell = cells[y][x];
         cell.update();
+        pixels[x + y * LENGTH] = color(cell.get_h(), 255, 255);    
+      }
+    }
+    updatePixels();
+    
+    int num = int(floor(LENGTH / float(UNIT_LENGTH)));
+
+    loadPixels();
+    for (int y = 0; y < LENGTH; y++) {
+      for (int x = 0; x < LENGTH; x++) {
+        Cell cell = cells[y][x];
+        cell.update();
         pixels[x + y * LENGTH] = color(cell.get_h(), 255, 255);
+        
+        int offset_x = int(floor(float(x) / UNIT_LENGTH));
+        int offset_y = int(floor(float(y) / UNIT_LENGTH));
+        
+        int i = offset_x + offset_y * num;
+        
+        int new_x = x - offset_x * UNIT_LENGTH;
+        int new_y = y - offset_y * UNIT_LENGTH;
+        
+        if (i == index) {
+          pixels[new_x + new_y * LENGTH] = color(cell.get_h(), 255, 255);      
+        }
       }
     }
     updatePixels();
 }
+
+ 
 
  void mousePressed() {
    
@@ -119,11 +145,17 @@ void draw() {
    }  
  }
  
+ int index = 0;
+ 
  void keyPressed() {
  
      if (key == 's') {
        write();
+     } else {
+       index = Integer.valueOf(key - 49);
      }
+     
+     
  
  }
  

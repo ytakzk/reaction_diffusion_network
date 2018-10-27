@@ -6,8 +6,8 @@ import map_loader
 import writer
 import boolean_operation
 
-tile_name_a = 7
-tile_name_b = 8
+tile_name_a = 0
+tile_name_b = 1
 
 side_length = 80
 boxSpacing = 10
@@ -24,8 +24,8 @@ def setup():
     maxValue = 256
     half_maxValue = (maxValue) / 2
 
-    cells_a = map_loader.load_map('2060/' + str(tile_name_a) + '.csv', maxValue, side_length)
-    cells_b = map_loader.load_map('2060/' + str(tile_name_b) + '.csv', maxValue, side_length)
+    cells_a = map_loader.load_map('1823/' + str(tile_name_a) + '.csv', maxValue, side_length)
+    cells_b = map_loader.load_map('1823/' + str(tile_name_b) + '.csv', maxValue, side_length)
 
     z_range = 16
     half_zRange = int(z_range / 2)

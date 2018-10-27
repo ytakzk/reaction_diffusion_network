@@ -7,3 +7,4 @@ optimized_meshes/*
 *.zip
 *.mlp
 *.obj
+.DS_Store
