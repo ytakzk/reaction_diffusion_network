@@ -1,4 +1,4 @@
-def load_map(name, upper_bound, LENGTH):
+def load_map(path, upper_bound, LENGTH):
 
     cells = []
     for y in range(LENGTH):
@@ -7,7 +7,7 @@ def load_map(name, upper_bound, LENGTH):
             cells_y.append(0)
         cells.append(cells_y)
         
-    file = open('../reactive_diffusion_network_java/output/' + name, 'r')
+    file = open(path, 'r')
     lines = file.readlines()
 
     min_val = 999

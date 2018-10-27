@@ -9,8 +9,8 @@ voxels = []
 # LENGTH = 80
 # HALF_LENGTH = int(LENGTH * 0.5)
 
-tile_name_a = 7
-tile_name_b = 8
+tile_name_a = 8
+tile_name_b = 7
 
 def setup():
 
