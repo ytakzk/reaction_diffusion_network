@@ -2,15 +2,15 @@ add_library('peasycam')
 
 from marching_cubes_3d import *
 from primitives import *
-from io import *
+from io_util import *
 import loader
 
 voxels = []
-LENGTH = 100
-HALF_LENGTH = int(LENGTH * 0.5)
+# LENGTH = 80
+# HALF_LENGTH = int(LENGTH * 0.5)
 
-tile_name_a = 1
-tile_name_b = 0
+tile_name_a = 7
+tile_name_b = 8
 
 def setup():
 

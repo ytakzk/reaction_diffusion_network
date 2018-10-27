@@ -3,13 +3,13 @@ import java.io.FileWriter;
 
 Cell[][] cells;
 
-int LENGTH = 1000;
-int UNIT_LENGTH = 200;
-int NUM_INITIAL_ATTRACTORS = 1000;
+int LENGTH = 240;
+int UNIT_LENGTH = 80;
+int NUM_INITIAL_ATTRACTORS = 50;
 
 void setup() {
 
-    size(1000, 1000);
+    size(240, 240);
     colorMode(HSB);
     frameRate(120);
 
