@@ -1,3 +1,12 @@
+$py.class
 *$py.class
 /**/output/*
 !/reactive_diffusion_network_java/output/*
+optimized_meshes/*
+*.3dm
+*.csv
+*.zip
+*.mlp
+*.obj
+.DS_Store
+/__pycache__/
