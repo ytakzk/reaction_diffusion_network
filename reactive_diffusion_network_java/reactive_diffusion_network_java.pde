@@ -2,6 +2,7 @@ import java.util.Arrays;
 import java.io.FileWriter;
 
 Cell[][] cells;
+Cell cellZero;
 
 int LENGTH = 240;
 int UNIT_LENGTH = 80;
@@ -60,31 +61,97 @@ void setup() {
       }
     }
     
-    
+    /* adjusted for corners */
+    cellZero = new Cell();
+    cellZero[0][0] = 0;
     
     for (int y = 0; y < LENGTH; y++) {
       for (int x = 0; x < LENGTH; x++) {
         
         Cell cell = cells[y][x];
         
-        int next_x = abs((x + 1) % LENGTH);
-        int prev_x = abs((x - 1) % LENGTH);
-        int next_y = abs((y + 1) % LENGTH);
-        int prev_y = abs((y - 1) % LENGTH);
-
-        Cell c1 = cells[next_y][x];
-        Cell c2 = cells[prev_y][x];
-        Cell c3 = cells[y][next_x];
-        Cell c4 = cells[y][prev_x];
-        Cell c5 = cells[next_y][next_x];
-        Cell c6 = cells[next_y][prev_x];
-        Cell c7 = cells[prev_y][next_x];
-        Cell c8 = cells[prev_y][prev_x];
+        int next_x = abs((x + 1));
+        int prev_x = abs((x - 1));
+        int next_y = abs((y + 1));
+        int prev_y = abs((y - 1));
+        
+        if (next_y < LENGTH) {
+          Cell c1 = cells[next_y][x];
+        }
+        else {
+          Cell c1 = cellZero[0][0];
+        }
+        if (prev_y >= 0) {
+          Cell c2 = cells[prev_y][x];
+        }
+        else {
+          Cell c2 = cellZero[0][0];
+        }
+        if (next_x < LENGTH) {
+          Cell c3 = cells[y][next_x];
+        }
+        else {
+          Cell c3 = cellZero[0][0];
+        }
+        if (prev_x >= 0) {
+          Cell c4 = cells[y][prev_x];
+        }
+        else {
+          Cell c4 = cellZero[0][0];
+        }
+        if ((next_y < LENGTH) && (next_x < LENGTH)) {
+          Cell c5 = cells[next_y][next_x];
+        }
+        else {
+          Cell c5 = cellZero[0][0];
+        }
+        if ((next_y < LENGTH) && (prev_x >= 0)) {
+          Cell c6 = cells[next_y][prev_x];
+        }
+        else {
+          Cell c6 = cellZero[0][0];
+        }
+        if ((prev_y >= 0) && (next_x < LENGTH)) {
+          Cell c7 = cells[prev_y][next_x];
+        }
+        else {
+          Cell c7 = cellZero[0][0];
+        }
+        if ((prev_y >= 0) && (prev_x >= 0)) {
+          Cell c8 = cells[prev_y][prev_x];
+        }
+        else {
+          Cell c8 = cellZero[0][0];
+        }
         
         cell.neighbors.addAll(Arrays.asList(c1, c2, c3, c4, c5, c6, c7, c8));
         cell.r_neighbors.addAll(Arrays.asList(0.2, 0.2, 0.2, 0.2, 0.05, 0.05, 0.05, 0.05));      
       }
     }
+    
+    //for (int y = 0; y < LENGTH; y++) {
+    //  for (int x = 0; x < LENGTH; x++) {
+        
+    //    Cell cell = cells[y][x];
+        
+    //    int next_x = abs((x + 1) % LENGTH);
+    //    int prev_x = abs((x - 1) % LENGTH);
+    //    int next_y = abs((y + 1) % LENGTH);
+    //    int prev_y = abs((y - 1) % LENGTH);
+
+    //    Cell c1 = cells[next_y][x];
+    //    Cell c2 = cells[prev_y][x];
+    //    Cell c3 = cells[y][next_x];
+    //    Cell c4 = cells[y][prev_x];
+    //    Cell c5 = cells[next_y][next_x];
+    //    Cell c6 = cells[next_y][prev_x];
+    //    Cell c7 = cells[prev_y][next_x];
+    //    Cell c8 = cells[prev_y][prev_x];
+        
+    //    cell.neighbors.addAll(Arrays.asList(c1, c2, c3, c4, c5, c6, c7, c8));
+    //    cell.r_neighbors.addAll(Arrays.asList(0.2, 0.2, 0.2, 0.2, 0.05, 0.05, 0.05, 0.05));      
+    //  }
+    //}
 }
 
 void draw() {  
