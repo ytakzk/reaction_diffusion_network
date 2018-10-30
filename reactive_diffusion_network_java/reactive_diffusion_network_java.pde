@@ -3,13 +3,13 @@ import java.io.FileWriter;
 
 Cell[][] cells;
 
-int LENGTH = 240;
-int UNIT_LENGTH = 80;
+int LENGTH = 400;
+int UNIT_LENGTH = 100;
 int NUM_INITIAL_ATTRACTORS = 50;
 
 void setup() {
 
-    size(240, 240);
+    size(400, 400);
     colorMode(HSB);
     frameRate(120);
 
@@ -67,10 +67,10 @@ void setup() {
         
         Cell cell = cells[y][x];
         
-        int next_x = abs((x + 1) % LENGTH);
-        int prev_x = abs((x - 1) % LENGTH);
-        int next_y = abs((y + 1) % LENGTH);
-        int prev_y = abs((y - 1) % LENGTH);
+        int next_x = (x + 1) % LENGTH;
+        int prev_x = x > 0 ? (x - 1) % LENGTH : LENGTH - 1;
+        int next_y = (y + 1) % LENGTH;
+        int prev_y = y > 0 ? (y - 1) % LENGTH : LENGTH - 1;
 
         Cell c1 = cells[next_y][x];
         Cell c2 = cells[prev_y][x];
